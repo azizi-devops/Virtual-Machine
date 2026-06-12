@@ -221,6 +221,7 @@ public class DecodeDispatchInterpreterProvided extends Interpreter {
 	}
 
 	private void interp_return() {
+		recordBasicBlock(pc);
 		halt();
 		pc += 1;
 		indirectJump();
