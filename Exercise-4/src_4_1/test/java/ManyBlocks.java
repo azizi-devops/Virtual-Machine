@@ -1,3 +1,4 @@
+
 public class ManyBlocks {
 
 	static int main(int n) {
