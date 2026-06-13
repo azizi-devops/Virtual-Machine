@@ -17,7 +17,7 @@ import java.util.Map;
 public class DecodeDispatchInterpreterProvided extends Interpreter {
 
 	int pc;
-	
+
 	List<Object> locals = new ArrayList<>();
 	Deque<Object> stack = new ArrayDeque<>();
 	private Object resultValue;
@@ -31,175 +31,177 @@ public class DecodeDispatchInterpreterProvided extends Interpreter {
 		int id;
 		int startPc;
 		int endPc;
+		int profile;
 
 		BasicBlock(int id, int startPc, int endPc) {
 			this.id = id;
 			this.startPc = startPc;
 			this.endPc = endPc;
+			this.profile = 0;
 
 		}
 
 
 
 	}
-	
+
 	public DecodeDispatchInterpreterProvided(File file) throws IOException {
 		super(file);
 	}
 
 	@Override
 	protected void interpret() {
-		
+
 		pc = 0;
-		
+
 		while(!halted()) {
 			directJump();
-			
+
 			int opcode = ((int) getBytes()[pc]) & 0xff;
 			extraction();
-			
+
 			switch (opcode) {
-			case 0x1a -> {
-				indirectJump();
-				interp_iload_0();
-			}
-			case 0x1b -> {
-				indirectJump();
-				interp_iload_1();
-			}
-			case 0x1c -> {
-				indirectJump();
-				interp_iload_2();
-			}
-			case 0x3b -> {
-				indirectJump();
-				interp_istore_0();
-			}
-			case 0x3c -> {
-				indirectJump();
-				interp_istore_1();
-			}
-			case 0x3d -> {
-				indirectJump();
-				interp_istore_2();
-			}
-			case 0x03 -> {
-				indirectJump();
-				interp_iconst_0();
-			}
-			case 0x04 -> {
-				indirectJump();
-				interp_iconst_1();
-			}
-			case 0xa7 -> {
-				indirectJump();
-				interp_goto();
-			}
-			case 0x68 -> {
-				indirectJump();
-				interp_imul();
-			}
-			case 0x84 -> {
-				indirectJump();
-				interp_iinc();
-			}
-			case 0x9a -> {
-				indirectJump();
-				interp_ifne();
-			}
-			case 0xb1 -> {
-				indirectJump();
-				interp_return();
-			}
-			case 0xa0 -> {
-				indirectJump();
-				interp_ifcmpne();
-			}
-			case 0xa4 -> {
-				indirectJump();
-				interp_ifcmple();
-			}
-			case 0x64 -> {
-				indirectJump();
-				interp_isub();
-			}
-			case 0x10 -> {
-				indirectJump();
-				interp_bipush();
-			}
+				case 0x1a -> {
+					indirectJump();
+					interp_iload_0();
+				}
+				case 0x1b -> {
+					indirectJump();
+					interp_iload_1();
+				}
+				case 0x1c -> {
+					indirectJump();
+					interp_iload_2();
+				}
+				case 0x3b -> {
+					indirectJump();
+					interp_istore_0();
+				}
+				case 0x3c -> {
+					indirectJump();
+					interp_istore_1();
+				}
+				case 0x3d -> {
+					indirectJump();
+					interp_istore_2();
+				}
+				case 0x03 -> {
+					indirectJump();
+					interp_iconst_0();
+				}
+				case 0x04 -> {
+					indirectJump();
+					interp_iconst_1();
+				}
+				case 0xa7 -> {
+					indirectJump();
+					interp_goto();
+				}
+				case 0x68 -> {
+					indirectJump();
+					interp_imul();
+				}
+				case 0x84 -> {
+					indirectJump();
+					interp_iinc();
+				}
+				case 0x9a -> {
+					indirectJump();
+					interp_ifne();
+				}
+				case 0xb1 -> {
+					indirectJump();
+					interp_return();
+				}
+				case 0xa0 -> {
+					indirectJump();
+					interp_ifcmpne();
+				}
+				case 0xa4 -> {
+					indirectJump();
+					interp_ifcmple();
+				}
+				case 0x64 -> {
+					indirectJump();
+					interp_isub();
+				}
+				case 0x10 -> {
+					indirectJump();
+					interp_bipush();
+				}
 
-			// TODO add further cases
-		// for factorial
+				// TODO add further cases
+				// for factorial
 
-			// value1 > value2
-			case 0xa3 -> {
-				indirectJump();
-				interp_ifcmpgt();
-			}
+				// value1 > value2
+				case 0xa3 -> {
+					indirectJump();
+					interp_ifcmpgt();
+				}
 
-			// value1 >= value2
-			case 0xa2 -> {
-				indirectJump();
-				interp_ifcmpge();
-			}
-		// for prime/////////////////////////////////////////////////////////
+				// value1 >= value2
+				case 0xa2 -> {
+					indirectJump();
+					interp_ifcmpge();
+				}
+				// for prime/////////////////////////////////////////////////////////
 
-			// value1 & value2((n & 1))
-			case 0x7e -> {
-				indirectJump();
-				interp_iand();
-			}
+				// value1 & value2((n & 1))
+				case 0x7e -> {
+					indirectJump();
+					interp_iand();
+				}
 
-			//	push integer constant 3 onto the stack(i = 3)
-			case 0x06 -> {
-				indirectJump();
-				interp_iconst_3();
-			}
+				//	push integer constant 3 onto the stack(i = 3)
+				case 0x06 -> {
+					indirectJump();
+					interp_iconst_3();
+				}
 
-			// if (a == b)((n & 1) == 0))
-			case 0x9f -> {
-				indirectJump();
-				interp_ifcmpeq();
-			}
+				// if (a == b)((n & 1) == 0))
+				case 0x9f -> {
+					indirectJump();
+					interp_ifcmpeq();
+				}
 
-			// remainder = value1 % value2;(n % i)
+				// remainder = value1 % value2;(n % i)
 
-			case 0x70 -> {
-				indirectJump();
-				interp_irem();
-			}
+				case 0x70 -> {
+					indirectJump();
+					interp_irem();
+				}
 
-			// IRETURN is used when a method returns an integer.(return true;)
+				// IRETURN is used when a method returns an integer.(return true;)
 
-			case 0xac -> {
-				indirectJump();
-				interp_ireturn();
-			}
+				case 0xac -> {
+					indirectJump();
+					interp_ireturn();
+				}
 
-		// for ManyBlocks/////////////////////////////////////////////////////////////////
+				// for ManyBlocks/////////////////////////////////////////////////////////////////
 
-		    // IADD (int c = a + b;)
-			case 0x60 -> {
-				indirectJump();
-				interp_iadd();
-			}
+				// IADD (int c = a + b;)
+				case 0x60 -> {
+					indirectJump();
+					interp_iadd();
+				}
 
-			// ICONST_5
-			case 0x08 -> {
-				indirectJump();
-				interp_iconst_5();
-			}
-
-
-			// ICONST_2
-			case 0x05 -> {
-				indirectJump();
-				interp_iconst_2();
-			}
+				// ICONST_5
+				case 0x08 -> {
+					indirectJump();
+					interp_iconst_5();
+				}
 
 
+				// ICONST_2
+				case 0x05 -> {
+					indirectJump();
+					interp_iconst_2();
+				}
 
-			default -> throw new IllegalArgumentException("Unsupported opcode: " + opcode);
+
+
+				default -> throw new IllegalArgumentException("Unsupported opcode: " + opcode);
 			}
 			directJump();
 		}
@@ -209,9 +211,14 @@ public class DecodeDispatchInterpreterProvided extends Interpreter {
 	private void recordBasicBlock(int endPc) {
 		String key = currentBlockStartPc + "-" + endPc;
 
-		if (!basicBlocks.containsKey(key)) {
-			basicBlocks.put(key, new BasicBlock(basicBlocks.size(), currentBlockStartPc, endPc));
+		BasicBlock block = basicBlocks.get(key);
+
+		if (block == null) {
+			block = new BasicBlock(basicBlocks.size(), currentBlockStartPc, endPc);
+			basicBlocks.put(key, block);
 		}
+
+		block.profile++;
 	}
 
 	private short branchOffset() {
@@ -313,7 +320,7 @@ public class DecodeDispatchInterpreterProvided extends Interpreter {
 		int constValue = ((int) getBytes()[pc + 2]) & 0xff;
 
 		locals.set(index,  ((Integer) locals.get(index)) + constValue);
-		
+
 		pc += 3;
 		indirectJump();
 	}
@@ -352,7 +359,7 @@ public class DecodeDispatchInterpreterProvided extends Interpreter {
 		currentBlockStartPc = pc;
 		indirectJump();
 	}
-	
+
 	private void interp_ifcmple() {
 		recordBasicBlock(pc);
 		int branchbyte1 = ((int) getBytes()[pc + 1]) & 0xff;
@@ -369,9 +376,9 @@ public class DecodeDispatchInterpreterProvided extends Interpreter {
 		currentBlockStartPc = pc;
 		indirectJump();
 	}
-	
+
 	// TODO add more routines
-    // for factorial///////////////////////////////////////////////////////////
+	// for factorial///////////////////////////////////////////////////////////
 	private void interp_ifcmpgt() {
 		recordBasicBlock(pc);
 		int branchbyte1 = ((int) getBytes()[pc + 1]) & 0xff;
@@ -442,7 +449,7 @@ public class DecodeDispatchInterpreterProvided extends Interpreter {
 
 	private void interp_ireturn() {
 		recordBasicBlock(pc);
-		 resultValue = stack.pop();
+		resultValue = stack.pop();
 
 		// store result if framework supports it
 		// e.g. resultValue = result;
@@ -571,6 +578,8 @@ public class DecodeDispatchInterpreterProvided extends Interpreter {
 					.append(block.startPc)
 					.append(" - ")
 					.append(block.endPc)
+					.append(": ")
+					.append(block.profile)
 					.append("\n");
 		}
 
