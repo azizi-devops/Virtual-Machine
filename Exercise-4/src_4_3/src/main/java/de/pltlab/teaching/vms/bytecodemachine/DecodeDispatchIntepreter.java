@@ -3,7 +3,7 @@ package de.pltlab.teaching.vms.bytecodemachine;
 import java.io.File;
 import java.io.IOException;
 
-/**
+/***
  * Incomplete demo implementation of an interpreter following the decode-dispatch-loop
  * strategy.
  */
