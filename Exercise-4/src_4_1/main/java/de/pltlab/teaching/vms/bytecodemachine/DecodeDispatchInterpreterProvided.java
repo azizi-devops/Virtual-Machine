@@ -8,7 +8,7 @@ import java.util.Collections;
 import java.util.Deque;
 import java.util.List;
 
-/**
+/***
  * Incomplete demo implementation of an interpreter following the decode-dispatch-loop
  * strategy.
  */
